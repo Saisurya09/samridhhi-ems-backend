@@ -118,13 +118,20 @@ async function sendResetOtpEmail(to, otp, name) {
 // Replace 'root' and 'password' with your actual MySQL username and password
 // Make sure the database 'ems' exists in your MySQL server
 const sequelize = new Sequelize(
-  process.env.DB_NAME || "ems",
-  process.env.DB_USER || "root",
-  process.env.DB_PASSWORD || "Sai@123",
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
   {
-    host: process.env.DB_HOST || "127.0.0.1",
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: "mysql",
     logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   }
 );
 
